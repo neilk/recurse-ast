@@ -13,7 +13,7 @@ const SYMBOLS = {
     PLUS: '+',
     FIRST: 'first',
     LIST: 'list',
-    GREP: 'grep'
+    STRCONCAT: 'strconcat'
 }
 
 function* getTokenIterator(program) {

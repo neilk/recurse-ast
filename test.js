@@ -1,7 +1,7 @@
 const assert = require('assert');
 
 const { parse, SYMBOLS } = require('./ast.js');
-const { PLUS, FIRST, LIST, GREP } = SYMBOLS;
+const { PLUS, FIRST, LIST, STRCONCAT } = SYMBOLS;
 
 assert.deepStrictEqual(
     parse('(first (list 1 (+ 2 3) 9))'),
@@ -10,8 +10,8 @@ assert.deepStrictEqual(
 );
 
 assert.deepStrictEqual(
-    parse('(grep "needle" "haystack")'),
-    [GREP, 'needle', 'haystack'],
+    parse('(strconcat "foo" "bar")'),
+    [STRCONCAT, 'foo', 'bar'],
     "Parse strings"
 );
 
