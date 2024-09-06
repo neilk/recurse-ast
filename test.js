@@ -14,12 +14,34 @@ assert.deepStrictEqual(
     "Simplest list"
 );
 
-assert.throws(
-    () => parse(''),
-    "Parse empty string"
+assert.deepStrictEqual(
+    parse('(foo)'),
+    ['foo'],
+    "List with one element"
 );
 
 assert.throws(
-    () => parse('(first (list 1 (+ 2 3) 9)'),
-    "Unbalanced parentheses"
+    () => parse(''),
+    { message: "Could not parse" }
 );
+
+assert.throws(
+    () => parse('did not have any parentheses'),
+    { message: "Could not parse" }
+);
+
+assert.throws(
+    () => parse('(foo bar'),
+    { message: "Unbalanced parentheses" }
+);
+
+assert.throws(
+    () => parse('(foo bar))'),
+    { message: "Unbalanced parentheses" }
+);
+
+assert.throws(
+    () => parse(')(foo bar'),
+    { message: "Unbalanced parentheses" }
+);
+
