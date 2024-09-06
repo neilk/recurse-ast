@@ -1,11 +1,18 @@
 const assert = require('assert');
 
-const { parse } = require('./ast.js');
+const { parse, SYMBOLS } = require('./ast.js');
+const { PLUS, FIRST, LIST, GREP } = SYMBOLS;
 
 assert.deepStrictEqual(
     parse('(first (list 1 (+ 2 3) 9))'),
-    ['first', ['list', 1, ['+', 2, 3], 9]],
-    "Nested list"
+    [FIRST, [LIST, 1, [PLUS, 2, 3], 9]],
+    "Example from specifications"
+);
+
+assert.deepStrictEqual(
+    parse('(grep "needle" "haystack")'),
+    [GREP, 'needle', 'haystack'],
+    "Parse strings"
 );
 
 assert.deepStrictEqual(
@@ -14,9 +21,14 @@ assert.deepStrictEqual(
     "Simplest list"
 );
 
+assert.throws(
+    () => parse('(foo "bar")'),
+    { message: "Unknown symbol foo" }
+);
+
 assert.deepStrictEqual(
-    parse('(foo)'),
-    ['foo'],
+    parse('(1)'),
+    [1],
     "List with one element"
 );
 
@@ -26,22 +38,22 @@ assert.throws(
 );
 
 assert.throws(
-    () => parse('did not have any parentheses'),
+    () => parse('list 1 2 3'),
     { message: "Could not parse" }
 );
 
 assert.throws(
-    () => parse('(foo bar'),
+    () => parse('(list 1'),
     { message: "Unbalanced parentheses" }
 );
 
 assert.throws(
-    () => parse('(foo bar))'),
+    () => parse('(list 1))'),
     { message: "Unbalanced parentheses" }
 );
 
 assert.throws(
-    () => parse(')(foo bar'),
+    () => parse(')(list 1'),
     { message: "Unbalanced parentheses" }
 );
 

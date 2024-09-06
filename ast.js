@@ -9,6 +9,13 @@ const TOKEN_TYPES = {
     STRING: 'STRING',
 }
 
+const SYMBOLS = {
+    PLUS: '+',
+    FIRST: 'first',
+    LIST: 'list',
+    GREP: 'grep'
+}
+
 function* getTokenIterator(program) {
     let start = 0;
     let end = 0;
@@ -35,7 +42,12 @@ function* getTokenIterator(program) {
                 yield [TOKEN_TYPES.STRING, token.slice(1, -1)];
             } else if (token.match(/^\S+$/)) {
                 // probably we will check if it is a valid symbol or something
-                yield [TOKEN_TYPES.SYMBOL, token];
+                const symbolEntry = Object.entries(SYMBOLS).find(([_, sym]) => sym === token);
+                if (symbolEntry) {
+                    yield [TOKEN_TYPES.SYMBOL, symbolEntry[1]];
+                } else {
+                    throw new Error(`Unknown symbol ${token}`);
+                }
             } else {
                 throw new Error(`Don't know how to parse token ${token}`);
             }
@@ -65,6 +77,8 @@ function getAst(tokenIterator, depth=0) {
             return tree;
         } else if (type === TOKEN_TYPES.NUMBER) {
             tree.push(val);
+        } else if (type === TOKEN_TYPES.STRING) {
+            tree.push(val);
         } else if (type === TOKEN_TYPES.SYMBOL) {
             tree.push(val);
         }
@@ -82,4 +96,5 @@ function parse(s) {
 
 module.exports = {
     parse,
+    SYMBOLS,
 }
