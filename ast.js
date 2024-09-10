@@ -7,14 +7,14 @@ const TOKEN_TYPES = {
     SYMBOL: 'SYMBOL',
     NUMBER: 'NUMBER',
     STRING: 'STRING',
-}
+};
 
 const SYMBOLS = {
     PLUS: '+',
     FIRST: 'first',
     LIST: 'list',
     STRCONCAT: 'strconcat'
-}
+};
 
 function* getTokenIterator(program) {
     let start = 0;
