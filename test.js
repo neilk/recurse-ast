@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const { parse, SYMBOLS } = require('./ast.js');
+const { parse, evaluate, SYMBOLS } = require('./ast.js');
 const { PLUS, FIRST, LIST, STRCONCAT } = SYMBOLS;
 
 describe('Recurse ast project', function () {
@@ -97,6 +97,20 @@ describe('Recurse ast project', function () {
             [LIST, 1, 2, 3],
         );
     });
+
+    it("should evaluate a simple plus function", function () {
+        assert.deepStrictEqual(
+            evaluate('(+ 3 7)'),
+            10,
+        );
+    });
+
+    it("should evaluate recursively", function () {
+        assert.deepStrictEqual(
+            evaluate('(+ (+ 1 5) 7)'),
+            13,
+        )
+    })
 
 });
 

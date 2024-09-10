@@ -10,10 +10,27 @@ const TOKEN_TYPES = {
 };
 
 const SYMBOLS = {
-    PLUS: '+',
-    FIRST: 'first',
-    LIST: 'list',
-    STRCONCAT: 'strconcat'
+    PLUS: {
+        display: '+',
+        operator: (args) => {
+            return args.reduce(
+                (accumulator, currentValue) => parseInt(accumulator) + currentValue,
+                0,
+            )
+        },
+    },
+    FIRST: {
+        display: 'first',
+        operator: () => { },
+    },
+    LIST: {
+        display: 'list',
+        operator: () => { },
+    },
+    STRCONCAT: {
+        display: 'strconcat',
+        operator: () => { },
+    }
 };
 
 function* getTokenIterator(program) {
@@ -41,7 +58,7 @@ function* getTokenIterator(program) {
             } else if (token.match(/^".*"$/)) {
                 yield [TOKEN_TYPES.STRING, token.slice(1, -1)];
             } else if (token.match(/^\S+$/)) {
-                const symbolEntry = Object.entries(SYMBOLS).find(([_, sym]) => sym === token);
+                const symbolEntry = Object.entries(SYMBOLS).find(([_, sym]) => sym.display === token);
                 if (symbolEntry) {
                     yield [TOKEN_TYPES.SYMBOL, symbolEntry[1]];
                 } else {
@@ -93,7 +110,24 @@ function parse(s) {
     return ast;
 }
 
+function _evaluate(element) {
+    // [ symbol, argument, argument]
+    if (Array.isArray(element)) {
+        const [symbol, ...args] = element;
+        const operator = symbol.operator;
+        return operator(args.map(_evaluate));
+    }
+    return element;
+}
+
+function evaluate(s) {
+    const ast = parse(s);
+    const result = _evaluate(ast);
+    return result;
+}
+
 module.exports = {
     parse,
+    evaluate,
     SYMBOLS,
 }
