@@ -41,7 +41,6 @@ function* getTokenIterator(program) {
             } else if (token.match(/^".*"$/)) {
                 yield [TOKEN_TYPES.STRING, token.slice(1, -1)];
             } else if (token.match(/^\S+$/)) {
-                // probably we will check if it is a valid symbol or something
                 const symbolEntry = Object.entries(SYMBOLS).find(([_, sym]) => sym === token);
                 if (symbolEntry) {
                     yield [TOKEN_TYPES.SYMBOL, symbolEntry[1]];

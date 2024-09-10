@@ -1,0 +1,22 @@
+{
+  "name": "recurse-ast",
+  "version": "1.0.0",
+  "main": "ast.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neilk/recurse-ast.git"
+  },
+  "author": "Neil Kandalgaonkar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neilk/recurse-ast/issues"
+  },
+  "homepage": "https://github.com/neilk/recurse-ast#readme",
+  "description": "",
+  "dependencies": {
+    "mocha": "^10.7.3"
+  }
+}
